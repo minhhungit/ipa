@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
     <head>
+		<meta charset="utf-8">
         <style type="text/css">
             #container-vowels, #container-consonants{
                 height: 20rem;
@@ -48,88 +50,108 @@
   crossorigin="anonymous"></script>
     <script>
 
-        var lastVowels = [];
+        var historyVowels = [];
         var lastVowelIndex = 0;
+		
+		var historyConsonants = [];
+        var lastConsonantIndex = 0;
 
-        function gen(){
+		const vowelItems = [
+			["1", "/ɑ:/"], 
+			["2", "/aɪ/"], 
+			["3", "/aʊ/"],  
+			["4", "/ɔ:/"], 
+			["5", "/ɔɪ/"], 
+			["6", "/oʊ/"], 
+			["7", "/e/"],  
+			["8", "/eɪ/"], 
+			["9", "/æ/"], 
+			["10", "/ɪ/"], 
+			["11", "/i:/"], 
+			["11'", "/i/"], 
+			["12", "/ʊ/"], 
+			["13", "/u:/"], 
+			["13'", "/u/"], 
+			["14", "/ʌ/"], 
+			["15", "/ɜ:/"], 
+			["15'", "/ə/"]];
+		
+		const consonantItems = [
+			["1", "/p/"], 
+			["2", "/b/"], 
+			["3", "/f/"],  
+			["4", "/v/"], 
 
-            const vowels = [
-                ["1", "/ɑ:/"], 
-                ["2", "/aɪ/"], 
-                ["3", "/aʊ/"],  
-                ["4", "/ɔ:/"], 
-                ["5", "/ɔɪ/"], 
-                ["6", "/oʊ/"], 
-                ["7", "/e/"],  
-                ["8", "/eɪ/"], 
-                ["9", "/æ/"], 
-                ["10", "/ɪ/"], 
-                ["11", "/i:/"], 
-                ["11'", "/i/"], 
-                ["12", "/ʊ/"], 
-                ["13", "/u:/"], 
-                ["13'", "/u/"], 
-                ["14", "/ʌ/"], 
-                ["15", "/ɜ:/"], 
-                ["15'", "/ə/"]];
+			["5", "/k/"], 
+			["6", "/g/"], 
 
-                const consonants = [
-                ["1", "/p/"], 
-                ["2", "/b/"], 
-                ["3", "/f/"],  
-                ["4", "/v/"], 
+			["7", "/θ/"],  
+			["8", "/ð/ "], 
 
-                ["5", "/k/"], 
-                ["6", "/g/"], 
+			["9", "/s/"], 
+			["10", "/z/"], 
+			["11", "/ʃ/"], 
+			["12'", "/ʒ/"],
 
-                ["7", "/θ/"],  
-                ["8", "/ð/ "], 
+			["13", " /t/"], 
+			["14", "/d/"], 
+			["15", "/j/"], 
+			["16", "/tʃ/"], 
+			["17", "/dʒ/"], 
 
-                ["9", "/s/"], 
-                ["10", "/z/"], 
-                ["11", "/ʃ/"], 
-                ["12'", "/ʒ/"],
+			["18", " /m/"], 
+			["19", "/n/"], 
+			["20", "/ŋ/"], 
 
-                ["13", " /t/"], 
-                ["14", "/d/"], 
-                ["15", "/j/"], 
-                ["16", "/tʃ/"], 
-                ["17", "/dʒ/"], 
+			["21", "/w/"], 
+			["22", "/r/"], 
 
-                ["18", " /m/"], 
-                ["19", "/n/"], 
-                ["20", "/ŋ/"], 
+			["23", "/l/"],
 
-                ["21", "/w/"], 
-                ["22", "/r/"], 
+			["24", "/h/"]];
+				
+        function genVowel(){
 
-                ["23", "/l/"],
+            const randomVowel = Math.floor(Math.random() * vowelItems.length);
 
-                ["24", "/h/"]];
+            if (historyVowels.length > 0 && (vowelItems[randomVowel][0] == historyVowels[historyVowels.length - 1][0])){
+                genVowel();
+                return;
+            }
 
-            const randomVowel = Math.floor(Math.random() * vowels.length);
-            const randomConsonant = Math.floor(Math.random() * consonants.length);
+            historyVowels.push(vowelItems[randomVowel]);
 
-            // if (lastVowels.length > 0 && (vowels[randomVowel][0] == lastVowels[lastVowels.length - 1][0])){
-            //     gen();
-            //     return;
-            // }
+            $("#vowel").html(vowelItems[randomVowel][1]);
+            $("#vowel-idx").html(vowelItems[randomVowel][0]);
 
-            //lastVowels.push(vowels[randomVowel]);
+            //$("#history").html(historyVowels.map(x=>`<span>${x[1]}</span>`));
+            lastVowelIndex = historyVowels.length - 2;
+        }
+		
+		function genConsonant(){
+			
+            const randomConsonant = Math.floor(Math.random() * consonantItems.length);
 
-            $("#vowel").html(vowels[randomVowel][1]);
-            $("#vowel-idx").html(vowels[randomVowel][0]);
+            if (historyConsonants.length > 0 && (consonantItems[randomConsonant][0] == historyConsonants[historyConsonants.length - 1][0])){
+                genConsonant();
+                return;
+            }
 
-            $("#consonant").html(consonants[randomConsonant][1]);
-            $("#consonant-idx").html(consonants[randomConsonant][0]);
+            historyConsonants.push(consonantItems[randomConsonant]);
 
-            //$("#history").html(lastVowels.map(x=>`<span>${x[1]}</span>`));
-            //lastVowelIndex = lastVowels.length - 2;
+            $("#consonant").html(consonantItems[randomConsonant][1]);
+            $("#consonant-idx").html(consonantItems[randomConsonant][0]);
+
+            //$("#history").html(historyConsonants.map(x=>`<span>${x[1]}</span>`));
+            lastConsonantIndex = historyConsonants.length - 2;
         }
 
-        gen();
+        genVowel();
+        genConsonant();
+		
         $("#btnNext").click(e =>{
-            gen();
+            genVowel();
+            genConsonant();
         });
 
         // $("#btnPrevious").click(e=>{
