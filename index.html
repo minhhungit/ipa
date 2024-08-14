@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <style type="text/css">
+            #container-vowels, #container-consonants{
+                height: 20rem;
+            }
+
+            #vowel, #vowel-idx, #consonant, #consonant-idx {
+                font-size:  15rem;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            #vowel-idx, #consonant-idx{
+                float:right;
+                font-size:  10rem;
+                color: #eee;
+            }
+
+            #btnPrevious, #btnNext{
+                font-size: 2rem;
+            }
+
+            #history span{
+                font-size: 2rem;
+                padding-right: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container-vowels">
+            <span id="vowel"></span>
+            <span id="vowel-idx"></span>
+        </div>
+        <br />
+        <!-- <button id="btnPrevious">Previous</button> -->
+        <button id="btnNext">Next</button>
+
+        <div id="container-consonants">
+            <span id="consonant"></span>
+            <span id="consonant-idx"></span>
+        </div>
+
+        <div id="history"></button>
+    </body>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+    <script>
+
+        var lastVowels = [];
+        var lastVowelIndex = 0;
+
+        function gen(){
+
+            const vowels = [
+                ["1", "/ɑ:/"], 
+                ["2", "/aɪ/"], 
+                ["3", "/aʊ/"],  
+                ["4", "/ɔ:/"], 
+                ["5", "/ɔɪ/"], 
+                ["6", "/oʊ/"], 
+                ["7", "/e/"],  
+                ["8", "/eɪ/"], 
+                ["9", "/æ/"], 
+                ["10", "/ɪ/"], 
+                ["11", "/i:/"], 
+                ["11'", "/i/"], 
+                ["12", "/ʊ/"], 
+                ["13", "/u:/"], 
+                ["13'", "/u/"], 
+                ["14", "/ʌ/"], 
+                ["15", "/ɜ:/"], 
+                ["15'", "/ə/"]];
+
+                const consonants = [
+                ["1", "/p/"], 
+                ["2", "/b/"], 
+                ["3", "/f/"],  
+                ["4", "/v/"], 
+
+                ["5", "/k/"], 
+                ["6", "/g/"], 
+
+                ["7", "/θ/"],  
+                ["8", "/ð/ "], 
+
+                ["9", "/s/"], 
+                ["10", "/z/"], 
+                ["11", "/ʃ/"], 
+                ["12'", "/ʒ/"],
+
+                ["13", " /t/"], 
+                ["14", "/d/"], 
+                ["15", "/j/"], 
+                ["16", "/tʃ/"], 
+                ["17", "/dʒ/"], 
+
+                ["18", " /m/"], 
+                ["19", "/n/"], 
+                ["20", "/ŋ/"], 
+
+                ["21", "/w/"], 
+                ["22", "/r/"], 
+
+                ["23", "/l/"],
+
+                ["24", "/h/"]];
+
+            const randomVowel = Math.floor(Math.random() * vowels.length);
+            const randomConsonant = Math.floor(Math.random() * consonants.length);
+
+            // if (lastVowels.length > 0 && (vowels[randomVowel][0] == lastVowels[lastVowels.length - 1][0])){
+            //     gen();
+            //     return;
+            // }
+
+            //lastVowels.push(vowels[randomVowel]);
+
+            $("#vowel").html(vowels[randomVowel][1]);
+            $("#vowel-idx").html(vowels[randomVowel][0]);
+
+            $("#consonant").html(consonants[randomConsonant][1]);
+            $("#consonant-idx").html(consonants[randomConsonant][0]);
+
+            //$("#history").html(lastVowels.map(x=>`<span>${x[1]}</span>`));
+            //lastVowelIndex = lastVowels.length - 2;
+        }
+
+        gen();
+        $("#btnNext").click(e =>{
+            gen();
+        });
+
+        // $("#btnPrevious").click(e=>{
+        //     if (lastVowelIndex > -1){
+        //         $("#vowel").html(lastVowels[lastVowelIndex][1]);
+        //         $("#vowel-idx").html(lastVowels[lastVowelIndex][0]);
+
+        //         lastVowelIndex--;
+        //     }
+        // });
+    </script>
+</html>
