@@ -71,8 +71,8 @@
             <span id="vowel-idx"></span>
         </div>
         <br />
-        <button id="btnPrevious">Previous</button>
-        <button id="btnNext">Next</button>
+        <button id="btnPrevious" style="display: none">Previous</button>
+        <button id="btnNext" style="display: none">Next</button>
 
         <div id="container-consonants">
             <span id="consonant"></span>
@@ -86,8 +86,9 @@
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
     <script>
+        $(document).ready(function() {
 
-        var numberOfSymbolsToGenerate = 200;
+            var numberOfSymbolsToGenerate = 200;
 
         var historyVowels = [];
         var historyConsonants = [];
@@ -211,5 +212,19 @@
         $("#btnPrevious").click(e =>{
             updateInterface(false);
         });
+
+            $(document).on('click', function(e) {
+                var screenWidth = $(window).width();
+                var clickPosition = e.clientX; // Get the horizontal position of the click
+                
+                if (clickPosition < screenWidth / 2) {
+                    // Click was on the left half of the screen
+                    updateInterface(false);
+                } else {
+                    // Click was on the right half of the screen
+                    updateInterface(true);
+                }
+            });
+        });        
     </script>
 </html>
