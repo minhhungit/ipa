@@ -62,21 +62,29 @@
                 text-align: center;
                 padding-top: 20px;
             }
+
+            .no_selection {
+                user-select: none; /* standard syntax */
+                -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+                -moz-user-select: none; /* mozilla browsers */
+                -khtml-user-select: none; /* webkit (konqueror) browsers */
+                -ms-user-select: none; /* IE10+ */
+            }
         </style>
     </head>
     <body>
         <div id="loading"></div>
         <div id="container-vowels">
-            <span id="vowel"></span>
-            <span id="vowel-idx"></span>
+            <span id="vowel" class="no_selection"></span>
+            <span id="vowel-idx" class="no_selection"></span>
         </div>
         <br />
         <button id="btnPrevious" style="display: none">Previous</button>
         <button id="btnNext" style="display: none">Next</button>
 
         <div id="container-consonants">
-            <span id="consonant"></span>
-            <span id="consonant-idx"></span>
+            <span id="consonant" class="no_selection"></span>
+            <span id="consonant-idx" class="no_selection"></span>
         </div>
 
         <div id="history"></button>
@@ -90,128 +98,128 @@
 
             var numberOfSymbolsToGenerate = 200;
 
-        var historyVowels = [];
-        var historyConsonants = [];
-        var symbolIndex = -1;
+            var historyVowels = [];
+            var historyConsonants = [];
+            var symbolIndex = -1;
 
-		const vowelItems = [
-			["1", "/ɑ:/"], 
-			["2", "/aɪ/"], 
-			["3", "/aʊ/"],  
-			["4", "/ɔ:/"], 
-			["5", "/ɔɪ/"], 
-			["6", "/oʊ/"], 
-			["7", "/e/"],  
-			["8", "/eɪ/"], 
-			["9", "/æ/"], 
-			["10", "/ɪ/"], 
-			["11", "/i:/"], 
-			["11 phụ", "/i/"], 
-			["12", "/ʊ/"], 
-			["13", "/u:/"], 
-			["13 phụ", "/u/"], 
-			["14", "/ʌ/"], 
-			["15", "/ɜ:/"], 
-			["15 phụ", "/ə/"]];
-		
-		const consonantItems = [
-			["1", "/p/"], 
-			["2", "/b/"], 
-			["3", "/f/"],  
-			["4", "/v/"], 
+            const vowelItems = [
+                ["1", "/ɑ:/"], 
+                ["2", "/aɪ/"], 
+                ["3", "/aʊ/"],  
+                ["4", "/ɔ:/"], 
+                ["5", "/ɔɪ/"], 
+                ["6", "/oʊ/"], 
+                ["7", "/e/"],  
+                ["8", "/eɪ/"], 
+                ["9", "/æ/"], 
+                ["10", "/ɪ/"], 
+                ["11", "/i:/"], 
+                ["11 phụ", "/i/"], 
+                ["12", "/ʊ/"], 
+                ["13", "/u:/"], 
+                ["13 phụ", "/u/"], 
+                ["14", "/ʌ/"], 
+                ["15", "/ɜ:/"], 
+                ["15 phụ", "/ə/"]];
+            
+            const consonantItems = [
+                ["1", "/p/"], 
+                ["2", "/b/"], 
+                ["3", "/f/"],  
+                ["4", "/v/"], 
 
-			["5", "/k/"], 
-			["6", "/g/"], 
+                ["5", "/k/"], 
+                ["6", "/g/"], 
 
-			["7", "/θ/"],  
-			["8", "/ð/"], 
+                ["7", "/θ/"],  
+                ["8", "/ð/"], 
 
-			["9", "/s/"], 
-			["10", "/z/"], 
-			["11", "/ʃ/"], 
-			["12", "/ʒ/"],
+                ["9", "/s/"], 
+                ["10", "/z/"], 
+                ["11", "/ʃ/"], 
+                ["12", "/ʒ/"],
 
-			["13", "/t/"], 
-			["14", "/d/"], 
-			["15", "/j/"], 
-			["16", "/tʃ/"], 
-			["17", "/dʒ/"], 
+                ["13", "/t/"], 
+                ["14", "/d/"], 
+                ["15", "/j/"], 
+                ["16", "/tʃ/"], 
+                ["17", "/dʒ/"], 
 
-			["18", "/m/"], 
-			["19", "/n/"], 
-			["20", "/ŋ/"], 
+                ["18", "/m/"], 
+                ["19", "/n/"], 
+                ["20", "/ŋ/"], 
 
-			["21", "/w/"], 
-			["22", "/r/"], 
+                ["21", "/w/"], 
+                ["22", "/r/"], 
 
-			["23", "/l/"],
+                ["23", "/l/"],
 
-			["24", "/h/"]];
-		
-        function nextVowel(){
-            const randomVowel = Math.floor(Math.random() * vowelItems.length);
-            if (historyVowels.length > 0 && (vowelItems[randomVowel][0] == historyVowels[historyVowels.length - 1][0])){
-                return nextVowel();
+                ["24", "/h/"]];
+            
+            function nextVowel(){
+                const randomVowel = Math.floor(Math.random() * vowelItems.length);
+                if (historyVowels.length > 0 && (vowelItems[randomVowel][0] == historyVowels[historyVowels.length - 1][0])){
+                    return nextVowel();
+                }
+
+                return vowelItems[randomVowel];
             }
 
-            return vowelItems[randomVowel];
-        }
+            function nextConsonant(){
+                const randomConsonant = Math.floor(Math.random() * consonantItems.length);
+                if (historyConsonants.length > 0 && (consonantItems[randomConsonant][0] == historyConsonants[historyConsonants.length - 1][0])){
+                    return nextConsonant();
+                }
 
-        function nextConsonant(){
-            const randomConsonant = Math.floor(Math.random() * consonantItems.length);
-            if (historyConsonants.length > 0 && (consonantItems[randomConsonant][0] == historyConsonants[historyConsonants.length - 1][0])){
-                return nextConsonant();
+                return consonantItems[randomConsonant];
             }
 
-            return consonantItems[randomConsonant];
-        }
+            function genSymbols(){
+                $("#loading").html("Initializing...");
+                for(i = 0; i < numberOfSymbolsToGenerate; i++){
+                    historyVowels.push(nextVowel());
+                    historyConsonants.push(nextConsonant());
+                }
+                $("#loading").html("");
+                $("#loading").hide();
 
-        function genSymbols(){
-            $("#loading").html("Initializing...");
-            for(i = 0; i < numberOfSymbolsToGenerate; i++){
-                historyVowels.push(nextVowel());
-                historyConsonants.push(nextConsonant());
-            }
-            $("#loading").html("");
-            $("#loading").hide();
-
-            // console.log(historyVowels);
-            // console.log(historyConsonants);
-        }
-
-        function updateInterface(isNext){
-            if (isNext){
-                symbolIndex++;
-            }
-            else{
-                symbolIndex--;
+                // console.log(historyVowels);
+                // console.log(historyConsonants);
             }
 
-            if(symbolIndex < 0){
-                symbolIndex = numberOfSymbolsToGenerate - 1;
+            function updateInterface(isNext){
+                if (isNext){
+                    symbolIndex++;
+                }
+                else{
+                    symbolIndex--;
+                }
+
+                if(symbolIndex < 0){
+                    symbolIndex = numberOfSymbolsToGenerate - 1;
+                }
+
+                if(symbolIndex >= numberOfSymbolsToGenerate){
+                    symbolIndex = 0;
+                }
+
+                $("#vowel").html(historyVowels[symbolIndex][1]);
+                $("#vowel-idx").html(historyVowels[symbolIndex][0]);
+
+                $("#consonant").html(historyConsonants[symbolIndex][1]);
+                $("#consonant-idx").html(historyConsonants[symbolIndex][0]);
             }
 
-            if(symbolIndex >= numberOfSymbolsToGenerate){
-                symbolIndex = 0;
-            }
-
-            $("#vowel").html(historyVowels[symbolIndex][1]);
-            $("#vowel-idx").html(historyVowels[symbolIndex][0]);
-
-            $("#consonant").html(historyConsonants[symbolIndex][1]);
-            $("#consonant-idx").html(historyConsonants[symbolIndex][0]);
-        }
-
-        genSymbols();
-        updateInterface(true);
-
-        $("#btnNext").click(e =>{
+            genSymbols();
             updateInterface(true);
-        });
 
-        $("#btnPrevious").click(e =>{
-            updateInterface(false);
-        });
+            $("#btnNext").click(e =>{
+                updateInterface(true);
+            });
+
+            $("#btnPrevious").click(e =>{
+                updateInterface(false);
+            });
 
             $(document).on('click', function(e) {
                 var screenWidth = $(window).width();
