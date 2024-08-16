@@ -226,6 +226,17 @@
                     updateInterface(true);
                 }
             });
+
+	$(document).keydown(function(event) {
+	    switch(event.key) {
+	        case "ArrowLeft": // Left arrow key	            
+	            updateInterface(false);
+	            break;
+	        case "ArrowRight": // Right arrow key
+	            updateInterface(true);
+	            break;
+		    }
+		});
         });        
     </script>
 </html>
